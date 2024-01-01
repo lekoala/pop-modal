@@ -1,5 +1,5 @@
 {
-  "name": "pop-modal",
+  "name": "pop-modal-dialog",
   "type": "module",
   "version": "1.0.0",
   "description": "A modern custom element to create dialogs",
