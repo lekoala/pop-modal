@@ -1,0 +1,38 @@
+{
+  "name": "pop-modal",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A modern custom element to create dialogs",
+  "main": "pop-modal",
+  "scripts": {
+    "test": "ava",
+    "build": "esbuild --bundle --minify --format=esm pop-modal.js --outfile=pop-modal.min.js",
+    "build-styled": "esbuild --bundle --minify --format=esm --loader:.css=text pop-modal.styled.js --outfile=pop-modal.styled.min.js",
+    "minify-css": "esbuild --bundle --minify pop-modal.css --outfile=pop-modal.min.css",
+    "start": "npm run build -- --servedir=.",
+    "watch": "npm run build -- --watch",
+    "build-min": "npm run build && npm run minify-css && npm run build-styled && git add -A && git commit -m \"build min file\"",
+    "update-deps": "npx npm-check-updates -u",
+    "jsdoc": "npx jsdoc-to-markdown src/PopModal.js",
+    "bump": "npm run build-min && npm version patch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lekoala/pop-modal"
+  },
+  "keywords": [
+    "DOM",
+    "pop",
+    "dialog",
+    "modal",
+    "bootstrap",
+    "bootstrap5",
+    "bootstrap 5",
+    "es6"
+  ],
+  "author": "LeKoala",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.19.7"
+  }
+}
