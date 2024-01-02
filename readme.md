@@ -1,7 +1,7 @@
 # Pop Notify
 
-[![NPM](https://nodei.co/npm/pop-modal.png?mini=true)](https://nodei.co/npm/pop-modal/)
-[![Downloads](https://img.shields.io/npm/dt/pop-modal.svg)](https://www.npmjs.com/package/pop-modal)
+[![NPM](https://nodei.co/npm/pop-modal-dialog.png?mini=true)](https://nodei.co/npm/pop-modal-dialog/)
+[![Downloads](https://img.shields.io/npm/dt/pop-modal-dialog.svg)](https://www.npmjs.com/package/pop-modal-dialog)
 
 > A modern custom element to create modals and dialogs
 
