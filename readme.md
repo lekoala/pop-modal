@@ -83,7 +83,7 @@ customElements.whenDefined("pop-modal").then(() => {
 
 Check out demo.html or a simple code pen below
 
-https://codepen.io/lekoalabe/pen/NWoXRaV
+https://codepen.io/lekoalabe/pen/yLwYEQV
 
 ## Browser supports
 
