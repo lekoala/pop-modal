@@ -1,4 +1,4 @@
-# Pop Notify
+# Pop Modal
 
 [![NPM](https://nodei.co/npm/pop-modal-dialog.png?mini=true)](https://nodei.co/npm/pop-modal-dialog/)
 [![Downloads](https://img.shields.io/npm/dt/pop-modal-dialog.svg)](https://www.npmjs.com/package/pop-modal-dialog)
