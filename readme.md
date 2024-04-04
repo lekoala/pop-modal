@@ -38,8 +38,8 @@ Using simple html:
 
   <pop-modal id="myModal"> Hi there! </pop-modal>
 
-  <button data-dialog="myModal">Open it</button
-  ><!-- no js was used :-) -->
+  <button data-dialog="myModal">Open it</button>
+  <!-- no js was used :-) -->
 
   ...
 </body>
