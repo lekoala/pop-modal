@@ -68,7 +68,7 @@ pop-modal dialog:not([open]) {
 
 
 /* Provide some baseline styles for buttons */
-pop-modal button {
+pop-modal button:not([class]) {
     border: 0;
     border-radius: var(--border-radius);
     color: rgba(var(--text-color-rgb));
@@ -78,17 +78,21 @@ pop-modal button {
     transition: all 0.25s ease;
 }
 
-pop-modal button:hover {
+pop-modal button:not([class]):hover {
     background-color: rgba(var(--text-color-rgb), 0.1);
 }
 
-pop-modal button.full {
+pop-modal button:where([type="reset"], [data-close]):not([class]) {
+    margin-inline-end: auto;
+}
+
+pop-modal button[data-full]:not([class]) {
     background-color: rgba(var(--text-color-rgb), 0.8);
     border-color: rgba(var(--text-color-rgb), 0);
     color: hsl(0 0% var(--bg-lightness) / 0.9);
 }
 
-pop-modal button.full:hover {
+pop-modal button[data-full]:not([class]):hover {
     background-color: rgba(var(--text-color-rgb), 0.6);
     border-color: rgba(var(--text-color-rgb), 0);
 }
@@ -137,10 +141,9 @@ pop-modal dialog+.backdrop {
     z-index: 0;
 }
 
-/* Responsive dialog */
+/* Responsive dialog @link https://web.dev/articles/building/a-dialog-component#responsive_dialog_sizing */
 pop-modal dialog {
     max-inline-size: min(90vw, var(--dialog-width));
     max-block-size: min(80vh, 100%);
     max-block-size: min(80dvb, 100%);
-    overflow: hidden;
 }

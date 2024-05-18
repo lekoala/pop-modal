@@ -70,6 +70,8 @@
     <button type="button" class="btn btn-primary mb-3" data-dialog="simpleModalNotDismissible">A modal not dismissible</button>
 
     <button type="button" class="btn btn-primary mb-3" data-dialog="withButtons">A modal with buttons</button>
+
+    <button type="button" class="btn btn-primary mb-3" data-dialog="scrollableModal">A scrollable modal</button>
     <p>You clicked on <span id="output">(nothing)</span></p>
 
     <hr>
@@ -157,12 +159,55 @@
       </menu>
     </pop-modal>
 
+    <pop-modal id="scrollableModal">
+      <button class="btn btn-primary">My button</button>
+      <p>Some content below that can be scrolled</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Some content below that can be scrolled</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Some content below that can be scrolled</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+      <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
+        dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
+        deserunt duis dolore ex.</p>
+    </pop-modal>
+
     <pop-modal id="withButtons" output="#output">
       <p>Click on a button. Reset will not update value (it will close due to data-close).</p>
       <menu>
         <button type="reset" value="resetBtn" data-close>Reset</button>
-        <button type="submit" value="confirmBtn" class="full">Confirm</button>
-        <button type="submit" value="otherBtn" class="full">Other</button>
+        <button type="submit" value="confirmBtn" data-full>Confirm</button>
+        <button type="submit" value="otherBtn" data-full>Other</button>
       </menu>
     </pop-modal>
 </body>
