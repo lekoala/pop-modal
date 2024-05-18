@@ -8,6 +8,10 @@ pop-modal {
     --text-color-rgb: var(--bs-body-color-rgb, 17, 17, 17);
 }
 
+/*
+When using overflow:hidden scrollbars are hidden. But this can cause a layout shift
+if you don't add a padding-inline-end. The scrollbar width variable is computed in js.
+*/
 html.pop-modal-open {
     overflow: hidden;
     padding-inline-end: var(--scrollbar-width);
@@ -19,6 +23,7 @@ html.pop-modal-open {
     --header-opacity: 0.2;
     --text-color-rgb: var(--bs-body-color-rgb, 222, 226, 230);
 }
+
 @media (prefers-color-scheme: dark) {
     pop-modal {
         --bg-lightness: 30%;

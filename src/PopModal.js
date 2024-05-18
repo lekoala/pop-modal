@@ -52,6 +52,10 @@ function parseBool(value) {
 }
 
 function getScrollBarWidth() {
+  // There is no scrollbar, no need to compute it's size
+  if (DOC.documentElement.scrollHeight <= DOC.documentElement.clientHeight) {
+    return 0;
+  }
   let el = DOC.createElement("div");
   el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
   DOC.body.appendChild(el);

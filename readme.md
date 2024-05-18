@@ -51,7 +51,7 @@ Using simple html:
 
 ## More examples
 
-Using a mega modal that goes to the bottom in mobile view:
+Using a mega modal that goes to the bottom in mobile view and hides the scrollbar:
 
 ```html
 <pop-modal id="megaModal" mega> ... </pop-modal>
