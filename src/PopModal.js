@@ -113,7 +113,6 @@ class PopModal extends HTMLElement {
       this.dialog.addEventListener("close", this);
 
       if (!animationReduced()) {
-        this.dialog.addEventListener("transitionstart", this);
         this.dialog.addEventListener("transitionend", this);
       }
     });
@@ -218,8 +217,6 @@ class PopModal extends HTMLElement {
   };
 
   $close(ev) {
-    this.dialog.classList.add("is-closing");
-
     // This is only available when there is a form method="dialog" tag
     const ret = this.dialog.returnValue;
 
@@ -237,24 +234,7 @@ class PopModal extends HTMLElement {
       this.closeHandler(ret, ev, this);
     }
 
-    if (animationReduced() || !supportsDialog()) {
-      this.dialog.classList.remove("is-closing");
-      DOC.documentElement.classList.remove("pop-modal-open");
-    }
-  }
-
-  /**
-   * @param {TransitionEvent} ev
-   */
-  $transitionstart(ev) {
-    if (ev.propertyName == "opacity") {
-      const t = ev.target;
-      if (t.open) {
-        t.classList.add("is-opening");
-      } else {
-        t.classList.add("is-closing");
-      }
-    }
+    DOC.documentElement.classList.remove("pop-modal-open");
   }
 
   /**
@@ -263,8 +243,6 @@ class PopModal extends HTMLElement {
   $transitionend(ev) {
     if (ev.propertyName == "opacity") {
       const t = ev.target;
-      t.classList.remove("is-opening");
-      t.classList.remove("is-closing");
       if (!t.open) {
         DOC.documentElement.classList.remove("pop-modal-open");
       }
@@ -316,18 +294,17 @@ class PopModal extends HTMLElement {
   }
 
   open(openValue = null, ev = null) {
-    if (this.isMega()) {
-      // Avoid content reflow
-      DOC.documentElement.style.setProperty("--scrollbar-width", getScrollBarWidth() + "px");
-      DOC.documentElement.classList.add("pop-modal-open");
-    }
-
     if (this.openHandler) {
       this.openHandler(openValue, ev, this);
     }
+    // When there is a backdrop, there are no scrollbars
     if (this.hasBackdrop()) {
+      // Avoid content reflow
+      DOC.documentElement.style.setProperty("--scrollbar-width", getScrollBarWidth() + "px");
+      DOC.documentElement.classList.add("pop-modal-open");
       this.dialog.showModal();
     } else {
+      // Scrollbars are allowed
       this.dialog.show();
     }
   }

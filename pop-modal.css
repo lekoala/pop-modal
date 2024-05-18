@@ -8,6 +8,10 @@ pop-modal {
     --text-color-rgb: var(--bs-body-color-rgb, 17, 17, 17);
 }
 
+pop-modal[backdrop="false"] {
+    --shadow-color: 0deg 0% 70%;
+}
+
 /*
 When using overflow:hidden scrollbars are hidden. But this can cause a layout shift
 if you don't add a padding-inline-end. The scrollbar width variable is computed in js.
@@ -47,6 +51,32 @@ pop-modal dialog {
         0px 7.9px 8.9px -0.8px hsl(var(--shadow-color) / 0.38),
         0px 22.6px 25.4px -1.7px hsl(var(--shadow-color) / 0.38),
         0px 58px 65.3px -2.5px hsl(var(--shadow-color) / 0.38);
+
+    overscroll-behavior: contain;
+
+    /* Responsive dialog @link https://web.dev/articles/building/a-dialog-component#responsive_dialog_sizing */
+    max-inline-size: min(90vw, var(--dialog-width));
+    max-block-size: min(80vh, 100%);
+    max-block-size: min(80dvb, 100%);
+    overflow: auto;
+}
+
+pop-modal dialog::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+pop-modal dialog::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+pop-modal dialog::-webkit-scrollbar-thumb {
+    background: rgba(var(--text-color-rgb), 0.3);
+    border-radius: var(--border-radius);
+}
+
+pop-modal dialog::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--text-color-rgb), 0.5);
 }
 
 /* On small screens, we can  move mega modals to the bottom of the screen for ease of use */
@@ -69,7 +99,9 @@ pop-modal dialog:not([open]) {
 
 @media (prefers-reduced-motion: no-preference) {
     pop-modal dialog {
-        will-change: opacity, transform;
+        /* Warning: will-change is intended to be used as a last resort, in order to try to deal with existing performance problems. 
+        It should not be used to anticipate performance problems. */
+        /* will-change: opacity, transform; */
         transform: translate(0);
         transition: opacity var(--dialog-speed), transform var(--dialog-speed);
     }
@@ -152,11 +184,4 @@ pop-modal dialog+.backdrop {
     background: rgba(var(--background-rgb), var(--background-opacity));
     backdrop-filter: blur(var(--backdrop-blur));
     z-index: 0;
-}
-
-/* Responsive dialog @link https://web.dev/articles/building/a-dialog-component#responsive_dialog_sizing */
-pop-modal dialog {
-    max-inline-size: min(90vw, var(--dialog-width));
-    max-block-size: min(80vh, 100%);
-    max-block-size: min(80dvb, 100%);
 }
