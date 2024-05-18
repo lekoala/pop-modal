@@ -3,7 +3,7 @@ pop-modal {
     --dialog-speed: 0.2s;
     --bg-lightness: 100%;
     --border-radius: 0.5rem;
-    --shadow-color: 0deg 0% 50%;
+    --shadow-color: 0deg 0% 40%;
     --header-opacity: 0.1;
     --text-color-rgb: var(--bs-body-color-rgb, 17, 17, 17);
 }
@@ -13,10 +13,16 @@ html.pop-modal-open {
     padding-inline-end: var(--scrollbar-width);
 }
 
+:is([data-bs-theme="dark"], [data-theme="dark"]) pop-modal {
+    --bg-lightness: 30%;
+    --shadow-color: 0deg 0% 0%;
+    --header-opacity: 0.2;
+    --text-color-rgb: var(--bs-body-color-rgb, 222, 226, 230);
+}
 @media (prefers-color-scheme: dark) {
     pop-modal {
         --bg-lightness: 30%;
-        --shadow-color: 0deg 0% 40%;
+        --shadow-color: 0deg 0% 0%;
         --header-opacity: 0.2;
         --text-color-rgb: var(--bs-body-color-rgb, 222, 226, 230);
     }
@@ -31,9 +37,11 @@ pop-modal dialog {
     inset: 0;
     padding: 1rem;
     background: hsl(0 0% var(--bg-lightness) / 0.9);
-    box-shadow: 0px 1px 2px hsl(var(--shadow-color) / 0.1),
-        0px 2px 4px hsl(var(--shadow-color) / 0.1),
-        0px 4px 8px hsl(var(--shadow-color) / 0.1)
+    /* https://www.joshwcomeau.com/shadow-palette/ */
+    box-shadow: 0px 1px 1.1px hsl(var(--shadow-color) / 0.38),
+        0px 7.9px 8.9px -0.8px hsl(var(--shadow-color) / 0.38),
+        0px 22.6px 25.4px -1.7px hsl(var(--shadow-color) / 0.38),
+        0px 58px 65.3px -2.5px hsl(var(--shadow-color) / 0.38);
 }
 
 /* On small screens, we can  move mega modals to the bottom of the screen for ease of use */

@@ -13,6 +13,7 @@
 - Fully accessible
 - Binds button automatically with `data-dialog`
 - Light dismiss
+- No layout jumps due to scrollbars
 - Nice animations
 
 ## Why use dialogs ?
