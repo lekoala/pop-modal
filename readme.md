@@ -34,6 +34,9 @@ Using simple html:
 
 ```html
 <body>
+  <!-- including using type module because it's an esm module -->
+  <script type="module" src="/path/to/pop-modal.styled.min.js"></script>
+
   ...
 
   <pop-modal id="myModal"> Hi there! </pop-modal>

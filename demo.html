@@ -72,6 +72,9 @@
     <button type="button" class="btn btn-primary mb-3" data-dialog="withButtons">A modal with buttons</button>
 
     <button type="button" class="btn btn-primary mb-3" data-dialog="scrollableModal">A scrollable modal</button>
+
+    <button type="button" class="btn btn-primary mb-3" data-dialog="formModal">A form modal</button>
+
     <p>You clicked on <span id="output">(nothing)</span></p>
 
     <hr>
@@ -200,6 +203,17 @@
       <p>Laborum cupidatat esse laborum excepteur. Non proident incididunt laboris irure ea esse laborum commodo Lorem officia dolore. Nisi
         dolore exercitation tempor aliquip sint sit in non deserunt ex. Ipsum sunt exercitation ex ipsum pariatur deserunt pariatur ullamco
         deserunt duis dolore ex.</p>
+    </pop-modal>
+
+    <pop-modal id="formModal">
+      <form novalidate method="post" action="https://vercel-dumper.vercel.app/">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <input type="submit" class="btn btn-primary">
+      </form>
     </pop-modal>
 
     <pop-modal id="withButtons" output="#output">

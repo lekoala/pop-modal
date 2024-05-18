@@ -73,6 +73,7 @@ class PopModal extends HTMLElement {
     // Otherwise content will show until proper initialization
     this.hidden = true;
     this.parentForm = null;
+    this.childForm = null;
 
     // These can be set before element is initialized when using the polyfill
     this.closeHandler = this.closeHandler || null;
@@ -91,7 +92,8 @@ class PopModal extends HTMLElement {
     setTimeout(() => {
       // We cannot nest forms
       this.parentForm = this.closest("form");
-      if (this.parentForm) {
+      this.childForm = this.querySelector("form");
+      if (this.parentForm || this.childForm) {
         this.innerHTML = `<dialog>${this.innerHTML}</dialog>`;
       } else {
         // This can be useful to track return value
@@ -181,6 +183,7 @@ class PopModal extends HTMLElement {
   }
 
   /**
+   * When it has a backdrop and no dismissible = false
    * @returns {Boolean}
    */
   isDismissible() {
@@ -213,6 +216,7 @@ class PopModal extends HTMLElement {
   $close(ev) {
     this.dialog.classList.add("is-closing");
 
+    // This is only available when there is a form method="dialog" tag
     const ret = this.dialog.returnValue;
 
     // Capture output to text or form element
@@ -280,7 +284,7 @@ class PopModal extends HTMLElement {
   $click(ev) {
     const t = ev.target;
 
-    // We clicked on the background
+    // We clicked on the background (= dialog that takes the whole screen)
     if (this.isDismissible()) {
       if (t.nodeName == "DIALOG") {
         this.dialog.close("dismiss");
