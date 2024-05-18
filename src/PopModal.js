@@ -111,7 +111,6 @@ class PopModal extends HTMLElement {
       }
 
       this.dialog.addEventListener("close", this);
-
       if (!animationReduced()) {
         this.dialog.addEventListener("transitionend", this);
       }
@@ -122,6 +121,9 @@ class PopModal extends HTMLElement {
     this.bindControls();
   }
 
+  /**
+   * Bind all buttons that toggles this modal
+   */
   bindControls() {
     DOC.querySelectorAll(`[data-dialog='${this.id}']`).forEach((btn) => {
       btn.addEventListener("click", this);
