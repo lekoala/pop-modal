@@ -57,10 +57,17 @@
     }
   </script>
 
+  <script>
+    function toggleTheme() {
+      const html = document.querySelector("html");
+      html.setAttribute("data-bs-theme", html.getAttribute("data-bs-theme") == "light" ? "dark" : "light");
+    }
+  </script>
+
 </head>
 
 <body>
-  <div class="text-end">Align end</div>
+  <div class="text-end"><a href="javascript:toggleTheme();">Toggle Dark/Light</a> | Align end</div>
   <div class="p-3">
     <button type="button" class="btn btn-primary mb-3" data-dialog="simpleModal">A simple modal</button>
 

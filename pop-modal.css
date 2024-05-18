@@ -6,6 +6,8 @@ pop-modal {
     --shadow-color: 0deg 0% 40%;
     --header-opacity: 0.1;
     --text-color-rgb: var(--bs-body-color-rgb, 17, 17, 17);
+    --scroll-color: #c1c1c1;
+    --scroll-color-hover: #969696;
 }
 
 pop-modal[backdrop="false"] {
@@ -26,6 +28,7 @@ html.pop-modal-open {
     --shadow-color: 0deg 0% 0%;
     --header-opacity: 0.2;
     --text-color-rgb: var(--bs-body-color-rgb, 222, 226, 230);
+    --scroll-color: #6b6b6b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,6 +37,7 @@ html.pop-modal-open {
         --shadow-color: 0deg 0% 0%;
         --header-opacity: 0.2;
         --text-color-rgb: var(--bs-body-color-rgb, 222, 226, 230);
+        --scroll-color: #6b6b6b;
     }
 }
 
@@ -71,12 +75,12 @@ pop-modal dialog::-webkit-scrollbar-track {
 }
 
 pop-modal dialog::-webkit-scrollbar-thumb {
-    background: rgba(var(--text-color-rgb), 0.3);
+    background: var(--scroll-color);
     border-radius: var(--border-radius);
 }
 
 pop-modal dialog::-webkit-scrollbar-thumb:hover {
-    background: rgba(var(--text-color-rgb), 0.5);
+    background: var(--scroll-color-hover);
 }
 
 /* On small screens, we can  move mega modals to the bottom of the screen for ease of use */
