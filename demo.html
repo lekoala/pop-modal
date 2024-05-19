@@ -46,6 +46,7 @@
   <script type="module">
     console.log("adding open/close handler");
     // It's easy to track open/close events and deal with opening/return values
+    // You can also simply use outputfn from the html if you want a simple way to deal with output result
     const popModal = document.querySelector('#withButtons');
     popModal.openHandler = (val, ev, inst) => {
       console.log("close", val, ev, inst);

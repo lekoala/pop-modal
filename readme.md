@@ -26,6 +26,7 @@ Modern dialogs have super powers that cannot be easily replicated with userland 
 ## Why use a custom element
 
 Because dialogs are not supported in safari < 15.4 and firefox < 98. Binding the polyfill is tricky.
+
 Also, you might want to have your buttons bound without custom js (onclick="this.closest('dialog').close('cancel')" anyone?) or inline scripts.
 And you might even enjoy some nice styling :-)
 

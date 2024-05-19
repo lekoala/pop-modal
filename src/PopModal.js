@@ -19,9 +19,10 @@ const options = {
   closeSelector: ".btn-close,.close,[data-close]",
 };
 
-function animationReduced() {
+function animationEnabled() {
   return (
-    window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
+    window.matchMedia(`(prefers-reduced-motion: no-preference)`) === true ||
+    window.matchMedia(`(prefers-reduced-motion: no-preference)`).matches === true
   );
 }
 
@@ -111,6 +112,9 @@ if (!supportsDialog()) {
   dialogPolyfill = await addDialogPolyfill();
 }
 
+// Init variable
+DOC.documentElement.style.setProperty("--scrollbar-width", getScrollBarWidth() + "px");
+
 class PopModal extends HTMLElement {
   constructor() {
     super();
@@ -119,11 +123,23 @@ class PopModal extends HTMLElement {
     // Otherwise content will show until proper initialization
     this.hidden = true;
 
+    /**
+     * @var {HTMLElement}
+     */
+    this.opener = null;
+
     // Forms
+    /**
+     * @var {HTMLFormElement}
+     */
     this.parentForm = null;
+    /**
+     * @var {HTMLFormElement}
+     */
     this.childForm = null;
 
     // These can be set before element is initialized when using the polyfill
+    // so we need to check for their existence
     this.closeHandler = this.closeHandler || null;
     this.openHandler = this.openHandler || null;
   }
@@ -149,12 +165,15 @@ class PopModal extends HTMLElement {
         this.innerHTML = `<dialog><form method="dialog">${this.innerHTML}</form></dialog>`;
       }
 
+      this.hidden = false;
+
+      // Animations are not playing with this but it doesn't really matter
       if (dialogPolyfill) {
         dialogPolyfill.registerDialog(this.dialog);
       }
 
       this.dialog.addEventListener("close", this);
-      if (!animationReduced()) {
+      if (animationEnabled()) {
         this.dialog.addEventListener("transitionend", this);
       }
 
@@ -284,8 +303,15 @@ class PopModal extends HTMLElement {
     }
 
     // Transition end will not play
-    if (animationReduced()) {
+    if (!animationEnabled()) {
       this._afterClose();
+    }
+
+    // With polyfill, focus is not going back
+    if (!supportsDialog()) {
+      if (this.opener) {
+        this.opener.focus();
+      }
     }
   }
 
@@ -304,7 +330,6 @@ class PopModal extends HTMLElement {
    */
   _afterClose() {
     if (!this.dialog.open) {
-      this.hidden = true;
       DOC.documentElement.classList.remove("pop-modal-open");
     }
   }
@@ -354,7 +379,10 @@ class PopModal extends HTMLElement {
   }
 
   open(openValue = null, ev = null) {
-    this.hidden = false;
+    if (ev && ev.target) {
+      this.opener = ev.target;
+    }
+
     if (this.openHandler) {
       this.openHandler(openValue, ev, this);
     }

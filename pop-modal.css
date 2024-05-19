@@ -11,6 +11,13 @@ pop-modal {
     --scroll-color-hover: #969696;
 }
 
+/*
+Make sure it's not focusable
+*/
+pop-modal[hidden] {
+    display: none;
+}
+
 pop-modal[backdrop="false"] {
     --shadow-color: 0deg 0% 70%;
 }
@@ -22,6 +29,13 @@ if you don't add a padding-inline-end. The scrollbar width variable is computed 
 html.pop-modal-open {
     overflow: hidden;
     padding-inline-end: var(--scrollbar-width);
+}
+
+/*
+Modals below the current modal will shift without this
+*/
+html.pop-modal-open pop-modal[position] dialog {
+    margin-inline: var(--scrollbar-width);
 }
 
 /*
@@ -39,7 +53,6 @@ pop-modal dialog {
     display: grid;
     border: 0;
     border-radius: var(--border-radius);
-    margin: auto;
     position: fixed;
     inset: 1rem;
     padding: 1rem;
@@ -108,6 +121,7 @@ pop-modal dialog::-webkit-scrollbar-thumb:hover {
 /* On small screens, we can  move mega modals to the bottom of the screen for ease of use */
 @media (max-width: 768px) {
     pop-modal[mega] dialog {
+        inset: 0;
         margin-block-end: 0;
         border-end-end-radius: 0;
         border-end-start-radius: 0;
@@ -118,7 +132,14 @@ pop-modal dialog[open] {
     opacity: 1;
 }
 
+/* Make sure it's not focusable for accessibility */
+pop-modal dialog:not([open], .is-closing) {
+    visibility: hidden;
+}
+
 pop-modal dialog:not([open]) {
+    /* Required to override polyfill */
+    display: unset;
     pointer-events: none;
     opacity: 0;
 }
