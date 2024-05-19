@@ -32,6 +32,6 @@
   "author": "LeKoala",
   "license": "MIT",
   "devDependencies": {
-    "esbuild": "^0.19.7"
+    "esbuild": "^0.21.3"
   }
 }
