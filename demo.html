@@ -64,6 +64,20 @@
     }
   </script>
 
+  <script>
+    window['app'] = {
+      showCookieMessage: function (result) {
+        if (result == "no") {
+          alert("You didn't accept the cookies, make sure we respect that");
+        }
+        if (result == "yes") {
+          alert("You accepted the cookies, here we should load marketing scripts");
+        }
+
+      }
+    }
+  </script>
+
 </head>
 
 <body>
@@ -131,6 +145,16 @@
       deserunt duis dolore ex.</p>
 
     <!-- our modals -->
+    <pop-modal id="autoModal" auto dismissible="false" backdrop="false" position="end" outputfn="app.showCookieMessage">
+      <div>This website uses cookies</div>
+
+      <menu>
+        <button value="no" class="btn btn-outline-secondary">Don't agree</button>
+        <!-- pick autofocus target -->
+        <button value="yes" class="btn btn-success" autofocus>Agree</button>
+      </menu>
+    </pop-modal>
+
     <pop-modal id="simpleModal">
       <div>My modal with a close button. Content will wrap automatically if width exceeds 60ch.</div>
 

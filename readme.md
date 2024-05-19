@@ -69,6 +69,24 @@ No light dismiss
 <pop-modal id="noLightDismissModal" dismissible="false"> ... </pop-modal>
 ```
 
+Self opening (for example on load)
+
+```html
+<pop-modal id="autoModal" auto> ... </pop-modal>
+```
+
+Positioning
+
+```html
+<pop-modal id="autoModal" auto position="end"> ... </pop-modal>
+```
+
+Callback that gets the button that has been clicked
+
+```html
+<pop-modal id="returnModal" output="#someselector" outputfn="some.function"> ... </pop-modal>
+```
+
 ## Config
 
 Simply call the static `configure` method.

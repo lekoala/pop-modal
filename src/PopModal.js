@@ -9,7 +9,7 @@ const CE = customElements;
 
 /**
  * @typedef Config
- * @property {String} closeSelector Selector to find close button
+ * @property {string} closeSelector Selector to find close button
  */
 
 /**
@@ -31,8 +31,8 @@ function supportsDialog() {
 
 /**
  * @param {HTMLElement} el
- * @param {String} n
- * @param {String|null} v
+ * @param {string} n
+ * @param {string|null} v
  */
 function attr(el, n, v) {
   if (v === null) {
@@ -44,13 +44,47 @@ function attr(el, n, v) {
 
 /**
  * Allow 1/0, true/false as strings
- * @param {any} value
- * @returns {Boolean}
+ * @param {*} value
+ * @returns {boolean}
  */
 function parseBool(value) {
   return ["true", "false", "1", "0", true, false].includes(value) && !!JSON.parse(value);
 }
 
+/**
+ * @param {HTMLElement} el
+ * @param {string} n
+ * @param {boolean} defaults When the attribute is not present, what is the default behaviour
+ * @returns {boolean}
+ */
+function boolAttr(el, n, defaults = false) {
+  const v = el.getAttribute(n);
+  if (v === null) {
+    return defaults;
+  }
+  // An attribute without value is like = true
+  if (v === "") {
+    return true;
+  }
+  return parseBool(v);
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {string} n
+ * @param {*} v
+ */
+function setrm(el, n, v = "") {
+  if (v) {
+    attr(el, n, v);
+  } else {
+    attr(el, n, null);
+  }
+}
+
+/**
+ * @returns {int}
+ */
 function getScrollBarWidth() {
   // There is no scrollbar, no need to compute it's size
   if (DOC.documentElement.scrollHeight <= DOC.documentElement.clientHeight) {
@@ -62,6 +96,14 @@ function getScrollBarWidth() {
   let width = el.offsetWidth - el.clientWidth;
   el.remove();
   return width;
+}
+
+/**
+ * @param {string} fn
+ * @returns {Function|null}
+ */
+function globalFn(fn) {
+  return fn.split(".").reduce((r, p) => r[p], window);
 }
 
 let dialogPolyfill = null;
@@ -76,6 +118,8 @@ class PopModal extends HTMLElement {
     // Make sure to also have pop-modal:not(:defined) as display:none
     // Otherwise content will show until proper initialization
     this.hidden = true;
+
+    // Forms
     this.parentForm = null;
     this.childForm = null;
 
@@ -104,7 +148,6 @@ class PopModal extends HTMLElement {
         // @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue
         this.innerHTML = `<dialog><form method="dialog">${this.innerHTML}</form></dialog>`;
       }
-      this.hidden = false;
 
       if (dialogPolyfill) {
         dialogPolyfill.registerDialog(this.dialog);
@@ -113,6 +156,11 @@ class PopModal extends HTMLElement {
       this.dialog.addEventListener("close", this);
       if (!animationReduced()) {
         this.dialog.addEventListener("transitionend", this);
+      }
+
+      // Auto open
+      if (this.auto) {
+        this.open();
       }
     });
 
@@ -146,28 +194,32 @@ class PopModal extends HTMLElement {
     return this.querySelectorAll(options.closeSelector);
   }
 
-  _setrm(n, v = "") {
-    if (v) {
-      attr(this, n, v);
-    } else {
-      attr(this, n, null);
-    }
-  }
-
   get dismissible() {
-    return this.getAttribute("dismissible");
+    return boolAttr(this, "dismissible", true);
   }
 
   set dismissible(v) {
-    this._setrm("dismissible", v);
+    setrm(this, "dismissible", !!v);
   }
 
   get backdrop() {
-    return this.getAttribute("backdrop");
+    return boolAttr(this, "backdrop", true);
   }
 
   set backdrop(v) {
-    this._setrm("backdrop", v);
+    setrm(this, "backdrop", !!v);
+  }
+
+  get mega() {
+    return boolAttr(this, "mega");
+  }
+
+  set mega(v) {
+    setrm(this, "mega", !!v);
+  }
+
+  get auto() {
+    return boolAttr(this, "auto");
   }
 
   get output() {
@@ -175,11 +227,19 @@ class PopModal extends HTMLElement {
   }
 
   set output(v) {
-    this._setrm("output", v);
+    setrm(this, "output", v);
+  }
+
+  get outputfn() {
+    return this.getAttribute("outputfn");
+  }
+
+  set outputfn(v) {
+    setrm(this, "outputfn", v);
   }
 
   /**
-   * @returns {HTMLElement}
+   * @returns {HTMLElement|null}
    */
   outputElement() {
     if (this.output) {
@@ -188,30 +248,12 @@ class PopModal extends HTMLElement {
   }
 
   /**
-   * When it has a backdrop and no dismissible = false
-   * @returns {Boolean}
+   * @returns {Function|null}
    */
-  isDismissible() {
-    const a = this.dismissible;
-    if (!a || parseBool(a) == true) {
-      return true;
+  outputFunction() {
+    if (this.outputfn) {
+      return globalFn(this.outputfn);
     }
-    return false;
-  }
-
-  isMega() {
-    return this.hasAttribute("mega");
-  }
-
-  /**
-   * @returns {Boolean}
-   */
-  hasBackdrop() {
-    const a = this.backdrop;
-    if (!a || parseBool(a) == true) {
-      return true;
-    }
-    return false;
   }
 
   handleEvent = (ev) => {
@@ -232,22 +274,38 @@ class PopModal extends HTMLElement {
       }
     }
 
+    const outputFn = this.outputFunction();
+    if (outputFn) {
+      outputFn(ret);
+    }
+
     if (this.closeHandler) {
       this.closeHandler(ret, ev, this);
     }
 
-    DOC.documentElement.classList.remove("pop-modal-open");
+    // Transition end will not play
+    if (animationReduced()) {
+      this._afterClose();
+    }
   }
 
   /**
    * @param {TransitionEvent} ev
    */
   $transitionend(ev) {
+    // When fully transparent
     if (ev.propertyName == "opacity") {
-      const t = ev.target;
-      if (!t.open) {
-        DOC.documentElement.classList.remove("pop-modal-open");
-      }
+      this._afterClose();
+    }
+  }
+
+  /**
+   * This is called directly after $close or after $transitionend
+   */
+  _afterClose() {
+    if (!this.dialog.open) {
+      this.hidden = true;
+      DOC.documentElement.classList.remove("pop-modal-open");
     }
   }
 
@@ -269,7 +327,7 @@ class PopModal extends HTMLElement {
     const t = ev.target;
 
     // We clicked on the background (= dialog that takes the whole screen)
-    if (this.isDismissible()) {
+    if (this.dismissible) {
       if (t.nodeName == "DIALOG") {
         this.dialog.close("dismiss");
       }
@@ -296,11 +354,12 @@ class PopModal extends HTMLElement {
   }
 
   open(openValue = null, ev = null) {
+    this.hidden = false;
     if (this.openHandler) {
       this.openHandler(openValue, ev, this);
     }
     // When there is a backdrop, there are no scrollbars
-    if (this.hasBackdrop()) {
+    if (this.backdrop) {
       // Avoid content reflow
       DOC.documentElement.style.setProperty("--scrollbar-width", getScrollBarWidth() + "px");
       DOC.documentElement.classList.add("pop-modal-open");

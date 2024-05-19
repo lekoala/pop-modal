@@ -2,6 +2,7 @@ pop-modal {
     --dialog-width: 60ch;
     --dialog-speed: 0.27s;
     --bg-lightness: 100%;
+    --bg-opacity: 1;
     --border-radius: 0.5rem;
     --shadow-color: 0deg 0% 40%;
     --header-opacity: 0.1;
@@ -23,6 +24,9 @@ html.pop-modal-open {
     padding-inline-end: var(--scrollbar-width);
 }
 
+/*
+Don't rely on @media (prefers-color-scheme: dark) as the host website may not implement dark theme
+*/
 :is([data-bs-theme="dark"], [data-theme="dark"]) pop-modal {
     --bg-lightness: 30%;
     --shadow-color: 0deg 0% 0%;
@@ -31,25 +35,16 @@ html.pop-modal-open {
     --scroll-color: #6b6b6b;
 }
 
-@media (prefers-color-scheme: dark) {
-    pop-modal {
-        --bg-lightness: 30%;
-        --shadow-color: 0deg 0% 0%;
-        --header-opacity: 0.2;
-        --text-color-rgb: var(--bs-body-color-rgb, 222, 226, 230);
-        --scroll-color: #6b6b6b;
-    }
-}
-
 pop-modal dialog {
     display: grid;
     border: 0;
     border-radius: var(--border-radius);
     margin: auto;
     position: fixed;
-    inset: 0;
+    inset: 1rem;
     padding: 1rem;
-    background: hsl(0 0% var(--bg-lightness) / 0.9);
+    color: rgba(var(--text-color-rgb));
+    background: hsl(0 0% var(--bg-lightness) / var(--bg-opacity));
     /* https://www.joshwcomeau.com/shadow-palette/ */
     box-shadow: 0px 1px 1.1px hsl(var(--shadow-color) / 0.38),
         0px 7.9px 8.9px -0.8px hsl(var(--shadow-color) / 0.38),
@@ -59,10 +54,37 @@ pop-modal dialog {
     overscroll-behavior: contain;
 
     /* Responsive dialog @link https://web.dev/articles/building/a-dialog-component#responsive_dialog_sizing */
+    min-inline-size: 20ch;
     max-inline-size: min(90vw, var(--dialog-width));
     max-block-size: min(80vh, 100%);
     max-block-size: min(80dvb, 100%);
     overflow: auto;
+}
+
+pop-modal[position="inline-end"] dialog {
+    inset-block-start: unset;
+}
+
+pop-modal[position="block-end"] dialog {
+    inset-inline-start: unset;
+}
+
+pop-modal[position="end"] dialog {
+    inset-inline-start: unset;
+    inset-block-start: unset;
+}
+
+pop-modal[position="inline-start"] dialog {
+    inset-block-end: unset;
+}
+
+pop-modal[position="block-start"] dialog {
+    inset-inline-end: unset;
+}
+
+pop-modal[position="start"] dialog {
+    inset-inline-end: unset;
+    inset-block-end: unset;
 }
 
 pop-modal dialog::-webkit-scrollbar {
