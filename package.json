@@ -1,11 +1,10 @@
 {
   "name": "pop-modal-dialog",
   "type": "module",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "A modern custom element to create dialogs",
   "main": "pop-modal",
   "scripts": {
-    "test": "ava",
     "build": "esbuild --bundle --minify --format=esm pop-modal.js --outfile=pop-modal.min.js",
     "build-styled": "esbuild --bundle --minify --format=esm --loader:.css=text pop-modal.styled.js --outfile=pop-modal.styled.min.js",
     "minify-css": "esbuild --bundle --minify pop-modal.css --outfile=pop-modal.min.css",
