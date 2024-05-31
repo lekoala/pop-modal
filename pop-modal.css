@@ -69,8 +69,8 @@ pop-modal dialog {
     /* Responsive dialog @link https://web.dev/articles/building/a-dialog-component#responsive_dialog_sizing */
     min-inline-size: 20ch;
     max-inline-size: min(90vw, var(--dialog-width));
-    max-block-size: min(80vh, 100%);
-    max-block-size: min(80dvb, 100%);
+    max-block-size: min(80vh, 80%);
+    max-block-size: min(80dvb, 80%);
     overflow: auto;
 }
 
@@ -118,9 +118,20 @@ pop-modal dialog::-webkit-scrollbar-thumb:hover {
     background: var(--scroll-color-hover);
 }
 
+/* Mega modals don't follow content size */
+pop-modal[mega] {
+    --dialog-width: 55%;
+}
+
+pop-modal[mega] dialog {
+    width: var(--dialog-width);
+    max-inline-size: max(90vw, var(--dialog-width));
+}
+
 /* On small screens, we can  move mega modals to the bottom of the screen for ease of use */
 @media (max-width: 768px) {
     pop-modal[mega] dialog {
+        width: 90vw;
         inset: 0;
         margin-block-end: 0;
         border-end-end-radius: 0;

@@ -144,25 +144,26 @@ class PopModal extends HTMLElement {
     this.openHandler = this.openHandler || null;
   }
 
-  /**
-   * @returns {HTMLDialogElement}
-   */
-  get dialog() {
-    return this.firstElementChild;
-  }
-
   connectedCallback() {
     // Make sure content is parsed, then wrap in a dialog
     setTimeout(() => {
       // We cannot nest forms
       this.parentForm = this.closest("form");
       this.childForm = this.querySelector("form");
-      if (this.parentForm || this.childForm) {
-        this.innerHTML = `<dialog>${this.innerHTML}</dialog>`;
-      } else {
-        // This can be useful to track return value
-        // @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue
-        this.innerHTML = `<dialog><form method="dialog">${this.innerHTML}</form></dialog>`;
+      this.dialog = this.querySelector("dialog");
+      if (!this.dialog) {
+        this.dialog = DOC.createElement("dialog");
+        if (this.parentForm || this.childForm) {
+          this.dialog.append(...this.childNodes);
+        } else {
+          // This can be useful to track return value
+          // @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue
+          const form = DOC.createElement("form");
+          form.setAttribute("method", "dialog");
+          this.dialog.append(form);
+          form.append(...this.childNodes);
+        }
+        this.appendChild(this.dialog);
       }
 
       this.hidden = false;
@@ -227,14 +228,6 @@ class PopModal extends HTMLElement {
 
   set backdrop(v) {
     setrm(this, "backdrop", !!v);
-  }
-
-  get mega() {
-    return boolAttr(this, "mega");
-  }
-
-  set mega(v) {
-    setrm(this, "mega", !!v);
   }
 
   get auto() {

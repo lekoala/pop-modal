@@ -46,6 +46,9 @@ Using simple html:
   <button data-dialog="myModal">Open it</button>
   <!-- no js was used :-) -->
 
+  <!-- adding the dialog tag is optional but recommended if you want to avoid swapping nodes -->
+  <pop-modal id="myModal"><dialog> Hi there! </dialog></pop-modal>
+
   ...
 </body>
 ```
