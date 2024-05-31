@@ -127,6 +127,19 @@
         </div>
       </pop-modal>
 
+      <button type="button" class="btn btn-secondary mb-3" data-dialog="nestedFormModal">A nested form</button>
+
+      <pop-modal id="nestedFormModal">
+        <!-- use a fake element to avoid browser parser dismissing the nested form -->
+        <nested-form novalidate id="nested-form" method="post" action="https://vercel-dumper.vercel.app/">
+          <div class="mb-3">
+            <label for="nestedInput" class="form-label">Type something in this nested form</label>
+            <input type="text" class="form-control" name="nested_input" id="nestedInput">
+          </div>
+          <div> <input type="submit" class="btn btn-primary" value="Submit nested form"></div>
+        </nested-form>
+      </pop-modal>
+
       <div> <input type="submit" class="btn btn-primary" value="Update profile"></div>
     </form>
 

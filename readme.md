@@ -15,6 +15,7 @@
 - Light dismiss
 - No layout jumps due to scrollbars
 - Nice animations
+- Nested form support
 
 ## Why use dialogs ?
 
@@ -55,7 +56,7 @@ Using simple html:
 
 ## More examples
 
-Using a mega modal that goes to the bottom in mobile view and hides the scrollbar:
+Using a mega modal that goes to the bottom in mobile view:
 
 ```html
 <pop-modal id="megaModal" mega> ... </pop-modal>
@@ -89,6 +90,19 @@ Callback that gets the button that has been clicked
 
 ```html
 <pop-modal id="returnModal" output="#someselector" outputfn="some.function"> ... </pop-modal>
+```
+
+Your own dialog tag
+
+```html
+<pop-modal id="dialogModal"><dialog id="somecustomid"> ... </dialog></pop-modal>
+```
+
+
+Nested forms
+
+```html
+<pop-modal id="returnModal"><nested-form action="/some/endpoint"> ... </nested-form></pop-modal>
 ```
 
 ## Config

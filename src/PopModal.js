@@ -136,7 +136,11 @@ class PopModal extends HTMLElement {
     /**
      * @var {HTMLFormElement}
      */
-    this.childForm = null;
+    this.form = null;
+    /**
+     * @var {HTMLDialogElement}
+     */
+    this.dialog = null;
 
     // These can be set before element is initialized when using the polyfill
     // so we need to check for their existence
@@ -149,21 +153,38 @@ class PopModal extends HTMLElement {
     setTimeout(() => {
       // We cannot nest forms
       this.parentForm = this.closest("form");
-      this.childForm = this.querySelector("form");
+      this.form = this.querySelector("form");
       this.dialog = this.querySelector("dialog");
+      const nestedForm = this.querySelector("nested-form");
+
       if (!this.dialog) {
         this.dialog = DOC.createElement("dialog");
-        if (this.parentForm || this.childForm) {
+        if (this.parentForm || this.form || nestedForm) {
           this.dialog.append(...this.childNodes);
         } else {
           // This can be useful to track return value
           // @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue
-          const form = DOC.createElement("form");
-          form.setAttribute("method", "dialog");
-          this.dialog.append(form);
-          form.append(...this.childNodes);
+          this.form = DOC.createElement("form");
+          this.form.setAttribute("method", "dialog");
+          this.dialog.append(this.form);
+          this.form.append(...this.childNodes);
         }
         this.appendChild(this.dialog);
+      }
+
+      if (nestedForm) {
+        if (this.parentForm) {
+          // Actual html forms cannot be nested, so we move the modal to the body
+          document.body.append(this);
+        }
+        // Convert to a real form
+        this.form = DOC.createElement("form");
+        nestedForm.getAttributeNames().forEach((attr) => {
+          this.form.setAttribute(attr, nestedForm.getAttribute(attr));
+        });
+        this.form.append(...nestedForm.childNodes);
+        this.dialog.append(this.form);
+        nestedForm.remove();
       }
 
       this.hidden = false;
@@ -201,7 +222,9 @@ class PopModal extends HTMLElement {
   disconnectedCallback() {
     // Cleanup event listeners
     this.removeEventListener("click", this);
-    this.dialog.removeEventListener("close", this);
+    if (this.dialog) {
+      this.dialog.removeEventListener("close", this);
+    }
     DOC.querySelectorAll(`[data-dialog='${this.id}']`).forEach((btn) => {
       btn.removeEventListener("click", this);
     });
